@@ -48,6 +48,71 @@ class Tree
   end
 
   def delete(value)
+    node = find(value)
+    # puts find_parent(value)
+    # puts find_parent(value).value
+    # puts node
+    # puts node.value
+    if !node.nil?
+      if node.leaf?
+        if find_parent(value).value > value
+          find_parent(value).left = nil
+        else
+          find_parent(value).right = nil
+        end
+
+      elsif node.single_child?
+        if find_parent(value).value > value
+          find_parent(value).left = if !node.right.nil?
+                                      node.right
+                                    else
+                                      node.left
+                                    end
+        else
+          find_parent(value).right = if !node.right.nil?
+                                       node.right
+                                     else
+                                       node.left
+                                     end
+        end
+
+      else
+        # How to deal with tree deletion
+
+      end
+    else
+      puts 'Value does not exist in tree.'
+    end
+    pretty_print
+  end
+
+  def find(value, root = @root)
+    return nil if root.nil?
+
+    if root.value == value
+      root
+    elsif root.value > value
+      find(value, root.left)
+    else
+      find(value, root.right)
+    end
+  end
+
+  def find_parent(value, root = @root)
+    # return nil if root.left.nil? && root.right.nil?
+    return 'This is root of the tree.' if root.value == value
+
+    if !root.right.nil? && root.right.value == value
+      root
+    elsif !root.left.nil? && root.left.value == value
+      root
+    elsif !root.value.nil?
+      if root.value > value
+        find_parent(value, root.left)
+      else
+        find_parent(value, root.right)
+      end
+    end
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
