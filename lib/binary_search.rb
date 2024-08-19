@@ -29,6 +29,8 @@ class Tree
     pretty_print
   end
 
+  # this is the method that actually does the insertion
+  # the method above simnply calls it and prints the new tree
   def insert_recursion(value, root = @root)
     return unless value != root.value
 
@@ -76,14 +78,40 @@ class Tree
                                      end
         end
 
-      else
-        # How to deal with tree deletion
-
+      elsif !node.leaf? && !node.single_child?
+        # Look to the right of the value, and then go the
+        # furthest left possible and replace with that value
+        if node.right.leaf?
+          node.value = node.right.value
+          node.right = nil
+        elsif node.right.single_child?
+          if !node.right.left.nil?
+            node.value = node.right.left.value
+            node.right.left = nil
+          else
+            node.value = node.right.value
+            node.right.value = node.right.right.value
+            node.right.right = nil
+          end
+        else
+          smallest_node_on_right = smallest_node_on_a_subtree(node.right)
+          node.value = smallest_node_on_right.value
+          smallest_node_on_right.delete_node
+        end
       end
     else
       puts 'Value does not exist in tree.'
     end
+    clean_up
     pretty_print
+  end
+
+  # method for deletion when the element
+  # being removed has a complete subtree
+  def smallest_node_on_a_subtree(root)
+    return root if root.left.nil?
+
+    smallest_node_on_a_subtree(root.left)
   end
 
   def find(value, root = @root)
@@ -113,6 +141,16 @@ class Tree
         find_parent(value, root.right)
       end
     end
+  end
+
+  # a method to clean up all the addresses leading to nil nodes
+  def clean_up(root = @root)
+    return if root.right.nil? && root.left.nil?
+
+    root.right = nil if !root.right.nil? && root.right.value.nil?
+    root.left = nil if !root.left.nil? && root.left.value.nil?
+    clean_up(root.left) unless root.left.nil?
+    clean_up(root.right) unless root.right.nil?
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)

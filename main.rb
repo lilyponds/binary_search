@@ -14,3 +14,11 @@ puts '--------------'
 test.delete(15)
 test.delete(99)
 test.delete(14)
+puts '--------------'
+test.delete(10)
+puts '--------------'
+test.delete(13)
+puts '--------------'
+test.delete(12)
+puts '--------------'
+test.delete(8)

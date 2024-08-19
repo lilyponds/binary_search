@@ -26,4 +26,10 @@ class Node
       false
     end
   end
+
+  def delete_node
+    @value = nil
+    @left = nil
+    @right = nil
+  end
 end
