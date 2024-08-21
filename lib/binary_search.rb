@@ -181,6 +181,9 @@ class Tree
     @items_order = []
   end
 
+  def height(root = @root)
+  end
+
   def find_parent(value, root = @root)
     # return nil if root.left.nil? && root.right.nil?
     return 'This is root of the tree.' if root.value == value
@@ -196,6 +199,11 @@ class Tree
         find_parent(value, root.right)
       end
     end
+  end
+
+  def rebalance
+    initialize(level_order_logic)
+    pretty_print
   end
 
   # a method to clean up all the addresses leading to nil nodes

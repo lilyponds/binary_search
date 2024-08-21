@@ -24,3 +24,5 @@ puts '--------------'
 test.delete(8)
 puts '--------------'
 test.all_order
+puts '--------------'
+test.rebalance
