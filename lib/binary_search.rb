@@ -7,6 +7,7 @@ class Tree
   def initialize(unsorted_arr)
     @arr = merge_sort(unsorted_arr).uniq
     @root = build_tree(@arr)
+    @items_order = []
   end
 
   def build_tree(array)
@@ -124,6 +125,60 @@ class Tree
     else
       find(value, root.right)
     end
+  end
+
+  def pre_order_logic(root = @root)
+    return if root.nil?
+
+    @items_order.push(root.value)
+    pre_order_logic(root.left)
+    pre_order_logic(root.right)
+  end
+
+  def in_order_logic(root = @root)
+    return if root.nil?
+
+    in_order_logic(root.left)
+    @items_order.push(root.value)
+    in_order_logic(root.right)
+  end
+
+  def post_order_logic(root = @root)
+    return if root.nil?
+
+    post_order_logic(root.left)
+    post_order_logic(root.right)
+    @items_order.push(root.value)
+  end
+
+  def level_order_logic(root = @root)
+    return if root.nil?
+
+    temp_arr = []
+    @items_order.push(root)
+    until @items_order.empty?
+      temp_arr.push(@items_order[0].value)
+      @items_order.push(root.left) unless root.left.nil?
+      @items_order.push(root.right) unless root.right.nil?
+      @items_order.shift
+      root = @items_order[0]
+    end
+    temp_arr
+  end
+
+  def all_order
+    clean_up
+    pre_order_logic
+    p @items_order
+    @items_order = []
+    in_order_logic
+    p @items_order
+    @items_order = []
+    post_order_logic
+    p @items_order
+    @items_order = []
+    p level_order_logic
+    @items_order = []
   end
 
   def find_parent(value, root = @root)

@@ -22,3 +22,5 @@ puts '--------------'
 test.delete(12)
 puts '--------------'
 test.delete(8)
+puts '--------------'
+test.all_order
