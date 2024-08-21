@@ -25,4 +25,10 @@ test.delete(8)
 puts '--------------'
 test.all_order
 puts '--------------'
+p test.height
+puts '--------------'
+p test.balanced?
+puts '--------------'
 test.rebalance
+puts '--------------'
+p test.balanced?
